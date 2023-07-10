@@ -169,12 +169,13 @@ step "generate-issue-on-failure" {
 
     action {
         action_type = "Octopus.Script"
+        notes = "Automatically generate a GitHub issue if this deployment fails."
         properties = {
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "sales-maven-feed"
             Octopus.Action.Package.PackageId = "com.octopus:enterprise-patterns-scripts"
             Octopus.Action.Script.ScriptFileName = "github_create_issue.py"
-            Octopus.Action.Script.ScriptParameters = "--git-repo InternalEnterprisePatternsIssues --issue-title \"Deployment failed #{Octopus.Space.Name} #{Octopus.Project.Name} #{Octopus.Release.Number} #{Octopus.Environment.Name}\" --issue-body \"#{Octopus.Web.ServerUri}#{Octopus.Web.DeploymentLink}\""
+            Octopus.Action.Script.ScriptParameters = "--git-repo InternalEnterprisePatternsIssues --issue-title \"Deployment failed: #{Octopus.Space.Name} #{Octopus.Project.Name} #{Octopus.Release.Number} #{Octopus.Environment.Name}\" --issue-body \"#{Octopus.Web.ServerUri}#{Octopus.Web.DeploymentLink}\""
             Octopus.Action.Script.ScriptSource = "Package"
         }
         worker_pool = "hosted-ubuntu"
